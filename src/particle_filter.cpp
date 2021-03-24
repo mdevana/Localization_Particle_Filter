@@ -20,6 +20,7 @@
 
 using std::string;
 using std::vector;
+using std::normal_distribution;
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
   /**
@@ -46,6 +47,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 current_particle.x=dist_x(gen);
 	 current_particle.y=dist_y(gen);
 	 current_particle.theta=dist_theta(gen);
+	 current_particle.weight=1;
 	 
 	  
   }
