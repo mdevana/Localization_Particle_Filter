@@ -97,10 +97,10 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    *   during the updateWeights phase.
    */
    double calc_dist;
-   for (int i = 0; i < observations.size(); i++) {
+   for (std::size_t i = 0; i < observations.size(); i++) {
 	double min_dist = 10000000;
 	LandmarkObs close_LandMarkObs;
-	for (int j = 0; j < predicted.size(); j++){
+	for (std::size_t j = 0; j < predicted.size(); j++){
 		calc_dist=dist ( predicted[i].x, predicted[i].y, observations[j].x, observations[j].y);
 		if (calc_dist < min_dist) {
 			min_dist=calc_dist;
