@@ -31,7 +31,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
-  num_particles = 100;  // TODO: Set the number of particles
+  num_particles = 10;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -53,7 +53,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 particles.push_back(current_particle);
 	  
   }
-  
+  std::cout << "particle initialised " << highest_weight << std::endl;
 
 }
 
