@@ -55,7 +55,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 P.push_back(current_particle);
 	  
   }
-  particle=P;
+  particles=P;
   std::cout << "particle after push back " << particles.size() << std::endl;
   std::cout << "weights initialised " << weights.size() << std::endl;
 
