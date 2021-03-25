@@ -156,7 +156,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				}
 			}
 			
-			final_weight*=multi_prob_dist(x_m,y-m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+			final_weight*=multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 		}
 
 		
