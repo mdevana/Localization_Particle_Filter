@@ -31,7 +31,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
-  std::cout << "particle initialised " << particles.size() << std::endl;
+  
   num_particles = 100;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
@@ -56,8 +56,6 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
   }
   particles=P;
-  std::cout << "particle after push back " << particles.size() << std::endl;
-  std::cout << "weights initialised " << weights.size() << std::endl;
 
 }
 
@@ -172,6 +170,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				}
 			}
 			
+			double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+			std::cout << "multi prob value = " << d << std::endl;
 			final_weight*=multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 		}
 
@@ -181,7 +181,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	}
 		
 	NormalizeWeights();
-	// set normalised Weights to particles	
+	// set normalised Weights to particles
+	for (int j = 0; j < num_particles; ++j) {
+		particles[j].weight = weights[j];
+	}
 
 }
 
