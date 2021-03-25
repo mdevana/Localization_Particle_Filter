@@ -173,11 +173,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 		
 		weights[i] = final_weight;
-		
+		particles[i].weight = final_weight;
 	}
 		
 	NormalizeWeights();
-		
+	// set normalised Weights to particles	
 
 }
 
@@ -202,6 +202,30 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
+   
+   std::random_device rd;
+   std::mt19937 gen(rd());
+   
+   std::discrete_distribution<> index_d(0,1);
+   
+   std::vector<Particle> particles_tmp;
+   
+   double beta = 0.0;
+   double max_weight= *max_element(weights.begin(),weights.end());
+   int index = (int) (d(gen) * num_particles);
+   
+   for( int i = 0;i < num_particles; i++){
+	   
+	   beta += (d(gen) * 2.0 * max_weight);
+	   while ( beta > weights[index] ){
+		   beta -= weights[index];
+		   index = ( index + 1 ) % num_particles ;
+	   }
+		particles_tmp.push_back()
+	   
+   }
+   
+   particles=particles_tmp;
 
 }
 
