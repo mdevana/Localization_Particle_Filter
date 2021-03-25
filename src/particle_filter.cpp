@@ -150,9 +150,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
 			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
-				if ( map_landmarks.landmark_list[k] == observations[v].id ) {
-					mu_x = map_landmarks.landmark_list[k].x;
-					mu_y = map_landmarks.landmark_list[k].y;
+				if ( map_landmarks.landmark_list[k].id_i == observations[v].id ) {
+					mu_x = map_landmarks.landmark_list[k].x_f;
+					mu_y = map_landmarks.landmark_list[k].y_f;
 				}
 			}
 			
