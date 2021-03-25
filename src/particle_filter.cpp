@@ -133,7 +133,19 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    */
    double head_angle, x_m, y_m,x_c,y_c,mu_x,mu_y;
    
-   dataAssociation(map_landmarks.landmark_list,observations);
+   
+   vector<LandmarkObs> Landmarks;
+   for (std::size_t l=0; l < map_landmarks.landmark_list.size(); l++) {
+	   LandmarkObs new_landmark;
+	   new_landmark.id=map_landmarks.landmark_list[k].id_i;
+	   new_landmark.x=map_landmarks.landmark_list[k].x_f;
+	   new_landmark.y=map_landmarks.landmark_list[k].y_f;
+	   Landmarks.push_back(new_landmark);
+   }
+   
+   
+   
+   dataAssociation(Landmarks,observations);
    
    for (int i = 0; i < num_particles; ++i) {
 	   
