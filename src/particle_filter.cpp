@@ -53,7 +53,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 particles.push_back(current_particle);
 	  
   }
-  std::cout << "particle initialised " << highest_weight << std::endl;
+  std::cout << "particle initialised " << particles.size() << std::endl;
 
 }
 
