@@ -170,12 +170,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
 		
-		for (std::size_t v=0; v < observations.size(); v++) {
+		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
 			
 			head_angle = particles[i].theta; 
 			
-			x_c = observations[v].x;
-			y_c = observations[v].y;
+			x_c = Landmarks_observations[v].x;
+			y_c = Landmarks_observations[v].y;
 			
 			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
@@ -183,7 +183,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
 			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
-				if ( map_landmarks.landmark_list[k].id_i == observations[v].id ) {
+				if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
 					mu_x = map_landmarks.landmark_list[k].x_f;
 					mu_y = map_landmarks.landmark_list[k].y_f;
 				}
