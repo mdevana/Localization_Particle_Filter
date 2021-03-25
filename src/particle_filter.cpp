@@ -32,6 +32,8 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   num_particles = 100;  // TODO: Set the number of particles
+  std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
+  weights = wts;
   
   std::default_random_engine gen;
   
@@ -104,7 +106,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
 		calc_dist=dist ( predicted[i].x, predicted[i].y, observations[j].x, observations[j].y);
 		if (calc_dist < min_dist) {
 			min_dist=calc_dist;
-			close_LandMarkObs= (LandmarkObs) predicted[j];
+			close_LandMarkObs= predicted[j];
 		}
 		observations[i].id= close_LandMarkObs.id;
 	}
@@ -129,8 +131,57 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
+   double head_angle, x_m, y_m,x_c,y_c,mu_x,mu_y;
+   
+   dataAssociation(map_landmarks.landmark_list,observations);
+   
+   for (int i = 0; i < num_particles; ++i) {
+	   
+	    double final_weight=1.0;
+		
+		for (std::size_t v=0; v < observations.size(); v++) {
+			
+			head_angle = particles[i].theta; 
+			
+			x_c = observations[v].x;
+			y_c = observations[v].y;
+			
+			x_m = particles[i].x + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
+			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
+			
+			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
+				if ( map_landmarks.landmark_list[k] == observations[v].id ) {
+					mu_x = map_landmarks.landmark_list[k].x;
+					mu_y = map_landmarks.landmark_list[k].y;
+				}
+			}
+			
+			final_weight*=multi_prob_dist(x_m,y-m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+		}
+
+		
+		weights[i] = final_weight;
+		
+	}
+		
+	NormalizeWeights();
+		
 
 }
+
+void ParticleFilter::NormalizeWeights() {
+	
+	double mag=0.0;
+	for (std::size_t i=0; i < weights.size(); i++){
+		mag+=weights[i];
+	}
+	double inv_mag= (1.0 / mag);
+	for (std::size_t i=0; i < weights.size(); i++){
+		weights[i]=weights[i]*inv_mag;
+	}
+	
+}
+
 
 void ParticleFilter::resample() {
   /**

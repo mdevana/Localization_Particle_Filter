@@ -59,6 +59,22 @@ inline double dist(double x1, double y1, double x2, double y2) {
 }
 
 /**
+ * Computes the Multivariate Gaussian Probability density function.
+ * @param (x,y) x and y coordinates of particle
+ * @param (mean_x,mean_y) mean in x and y coordinates
+ * @param (sigma_x,sigma_y) uncertanity in x and y coordinates
+ * @output Probability density value
+ */
+inline double multi_prob_dist(double x, double y, double mean_x, double mean_y, double sigma_x, double sigma_y) {
+  	
+  double pre_multiplier = ( 1.0 / 2.0 * M_PI * sigma_x *  sigma_y );
+  double exp_term_1 = ( x - mean_x ) * ( x - mean_x ) / ( 2 * sigma_x * sigma_x);
+  double exp_term_2 = ( y - mean_y ) * ( y - mean_y ) / ( 2 * sigma_y * sigma_y);
+  return ( pre_multiplier * exp ( -1 * (exp_term_1 + exp_term_2)));
+
+}
+
+/**
  * Computes the error between ground truth and particle filter data.
  * @param (gt_x, gt_y, gt_theta) x, y and theta of ground truth
  * @param (pf_x, pf_y, pf_theta) x, y and theta of particle filter

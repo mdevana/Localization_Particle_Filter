@@ -101,6 +101,9 @@ class ParticleFilter {
   const bool initialized() const {
     return is_initialized;
   }
+  
+  /* Normalize Particle Weights */
+  void NormalizeWeights();
 
   /**
    * Used for obtaining debugging information related to particles.
