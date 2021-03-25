@@ -145,7 +145,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    
    vector<LandmarkObs> Landmarks_observations=observations; 
 
-   dataAssociation(Landmarks,observations);
+   dataAssociation(Landmarks,Landmarks_observations);
    
    for (int i = 0; i < num_particles; ++i) {
 	   
