@@ -76,7 +76,8 @@ inline double multi_prob_dist(double x, double y, double mean_x, double mean_y, 
   double exp_term_2 = ( y - mean_y ) * ( y - mean_y ) / ( 2 * sigma_y * sigma_y);
   std::cout<<" exp_term2="<< exp_term_2<< std::endl;
   
-  std::cout<<" result ="<<exp( -1 * exp_term_1)<< std::endl;
+  double result = exp(-1);
+  std::cout<<" result ="<<result<< std::endl;
   return ( pre_multiplier * exp ( -1 * (exp_term_1 + exp_term_2)));
 
 }
