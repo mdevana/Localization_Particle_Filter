@@ -191,9 +191,24 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			
 			std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
 			
-			double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+			double sigma_x=std_landmark[0];
+			double sigma_y=std_landmark[1];
+			
+			double pre_multiplier = ( 1.0 / 2.0 * 3.142 * sigma_x *  sigma_y );
+			std::cout<<" pre multiplier="<< pre_multiplier<< std::endl;
+			double exp_term_1 = ( x_m - mu_x ) * ( x_m - mu_x ) / ( 2 * sigma_x * sigma_x);
+			std::cout<<" exp_term1="<< exp_term_1<< std::endl;
+  
+			double exp_term_2 = ( y_m - mu_y ) * ( y_m - mu_y ) / ( 2 * sigma_y * sigma_y);
+			std::cout<<" exp_term2="<< exp_term_2<< std::endl;
+  
+			double exponent= exp_term_1 + exp_term_2 ;
+			double d = pre_multiplier * exp(-exponent);
+			
+			
+			//double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 			std::cout << "multi prob value = " << d << std::endl;
-			final_weight*=multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+			final_weight*=d;
 		}
 
 		
