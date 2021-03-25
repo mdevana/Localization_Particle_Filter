@@ -160,7 +160,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   
 	    double final_weight=1.0;
 		
-		//std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
+		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
 		
 		for (std::size_t v=0; v < observations.size(); v++) {
 			
@@ -169,7 +169,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_c = observations[v].x;
 			y_c = observations[v].y;
 			
-			//std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
+			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
 			x_m = particles[i].x + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
