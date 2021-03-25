@@ -83,6 +83,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 	 particles[i].x= ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
 	 particles[i].y= ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) + dist_y(gen);
 	 particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) + dist_theta(gen);
+	 
+	 std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
 
   }
    
@@ -153,12 +155,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   
 	    double final_weight=1.0;
 		
+		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
+		
 		for (std::size_t v=0; v < observations.size(); v++) {
 			
 			head_angle = particles[i].theta; 
 			
 			x_c = observations[v].x;
 			y_c = observations[v].y;
+			
+			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
 			x_m = particles[i].x + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
