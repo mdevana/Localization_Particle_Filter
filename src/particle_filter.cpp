@@ -221,7 +221,7 @@ void ParticleFilter::resample() {
 		   beta -= weights[index];
 		   index = ( index + 1 ) % num_particles ;
 	   }
-		particles_tmp.push_back()
+		particles_tmp.push_back();
 	   
    }
    
