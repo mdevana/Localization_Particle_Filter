@@ -42,7 +42,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   normal_distribution<double> dist_y(y, std[1]);
   normal_distribution<double> dist_theta(theta, std[2]);
   
-  
+  std::vector<double> P;
   
   for (int i = 0; i < num_particles; ++i) {
 	  
@@ -52,9 +52,10 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 current_particle.y=dist_y(gen);
 	 current_particle.theta=dist_theta(gen);
 	 current_particle.weight=1;
-	 particles.push_back(current_particle);
+	 P.push_back(current_particle);
 	  
   }
+  particle=P;
   std::cout << "particle after push back " << particles.size() << std::endl;
   std::cout << "weights initialised " << weights.size() << std::endl;
 
