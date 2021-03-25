@@ -74,7 +74,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    normal_distribution<double> dist_x(0, std_pos[0]);
    normal_distribution<double> dist_y(0, std_pos[1]);
    normal_distribution<double> dist_theta(0, std_pos[2]);
-   std::cout<<" Prediction step"<<std:endl;
+   std::cout<<" Prediction step"<<std::endl;
    
    std::cout<< " Velocity = "<< velocity << " Yaw Rate "<< yaw_rate << " delta=  "<<delta_t<<std::endl;
    
