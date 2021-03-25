@@ -149,6 +149,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   new_landmark.id=map_landmarks.landmark_list[l].id_i;
 	   new_landmark.x=map_landmarks.landmark_list[l].x_f;
 	   new_landmark.y=map_landmarks.landmark_list[l].y_f;
+	   std::cout<< " landmark X= "<< map_landmarks.landmark_list[l].x_f << " landmark Y= "<< map_landmarks.landmark_list[l].y_f << " landmark id =  "<<map_landmarks.landmark_list[l].id_i;
 	   Landmarks.push_back(new_landmark);
    }
    
