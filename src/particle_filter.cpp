@@ -54,6 +54,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
   }
   std::cout << "particle initialised " << particles.size() << std::endl;
+  std::cout << "weights initialised " << weights.size() << std::endl;
 
 }
 
