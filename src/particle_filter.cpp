@@ -56,6 +56,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
   }
   particles=P;
+  is_initialized=true;
 
 }
 
