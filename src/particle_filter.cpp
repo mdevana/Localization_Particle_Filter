@@ -142,10 +142,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   new_landmark.y=map_landmarks.landmark_list[l].y_f;
 	   Landmarks.push_back(new_landmark);
    }
-   
-   
-   
-   dataAssociation(Landmarks,observations);
+ 
+
+   dataAssociation(Landmarks,&observations);
    
    for (int i = 0; i < num_particles; ++i) {
 	   
