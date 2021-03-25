@@ -206,7 +206,7 @@ void ParticleFilter::resample() {
    std::random_device rd;
    std::mt19937 gen(rd());
    
-   std::discrete_distribution<> index_d(0,1);
+   std::discrete_distribution<> d(0,1);
    
    std::vector<Particle> particles_tmp;
    
