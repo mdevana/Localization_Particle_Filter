@@ -38,9 +38,9 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   
   std::default_random_engine gen;
   
-  normal_distribution<double> dist_x(x, std[0]);
-  normal_distribution<double> dist_y(y, std[1]);
-  normal_distribution<double> dist_theta(theta, std[2]);
+  normal_distribution<double> dist_x(0, std[0]);
+  normal_distribution<double> dist_y(0, std[1]);
+  normal_distribution<double> dist_theta(0, std[2]);
   
   std::vector<Particle> P;
   
@@ -52,9 +52,9 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
 	 Particle current_particle;
 	 current_particle.id=(i+1);
-	 current_particle.x=dist_x(gen);
-	 current_particle.y=dist_y(gen);
-	 current_particle.theta=dist_theta(gen);
+	 current_particle.x= x + dist_x(gen);
+	 current_particle.y= y + dist_y(gen);
+	 current_particle.theta=d theta + dist_theta(gen);
 	 current_particle.weight=1;
 	 P.push_back(current_particle);
 	  
@@ -75,6 +75,10 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    */
    
    std::default_random_engine gen;
+   
+   normal_distribution<double> dist_x(0, std_pos[0]);
+   normal_distribution<double> dist_y(0, std_pos[1]);
+   normal_distribution<double> dist_theta(0, std_pos[2]);
   
    
    std::cout<<" Prediction step"<<std::endl;
@@ -85,9 +89,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    for (int i = 0; i < num_particles; ++i) {
 	  
 	 //std::cout<<particles[i].id;
-	 normal_distribution<double> dist_x(particles[i].x, std_pos[0]);
-     normal_distribution<double> dist_y(particles[i].y, std_pos[1]);
-     normal_distribution<double> dist_theta(particles[i].theta, std_pos[2]);
+	 
 	 
 	 std::cout<<"before prediction" <<" X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta<<std::endl;
 	 
