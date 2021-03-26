@@ -151,7 +151,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
    double head_angle, x_p, y_p, x_m, y_m,x_c,y_c,mu_x,mu_y;
-   double calc_dist
+   double calc_dist;
    
    // Copy Landmark from maps to structure  data structure
    
