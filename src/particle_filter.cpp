@@ -195,26 +195,27 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
 			
+			if (Landmarks_observations[v].id != 0){
 			
-			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
-				if (Landmarks_observations[v].id != 0){
+				for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
+
+						if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
+							mu_x = map_landmarks.landmark_list[k].x_f;
+							mu_y = map_landmarks.landmark_list[k].y_f;
+						}
 					
-					if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
-						mu_x = map_landmarks.landmark_list[k].x_f;
-						mu_y = map_landmarks.landmark_list[k].y_f;
-					}
 				}
-			}
 			
-			x_m = Landmarks_observations[v].x;
-			y_m = Landmarks_observations[v].y;
+				x_m = Landmarks_observations[v].x;
+				y_m = Landmarks_observations[v].y;
 		
 			
-			std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
+				std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
 
-			double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
-			std::cout << "multi prob value = " << d << std::endl;
-			final_weight*=d;
+				double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+				std::cout << "multi prob value = " << d << std::endl;
+				final_weight*=d;
+			}
 		}
 
 		
