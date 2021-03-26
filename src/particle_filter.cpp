@@ -235,7 +235,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			
 				for (std::size_t k=0; k < Landmarks.size(); k++) {
 
-						if ( Landmarks[k].id_i == Landmarks_observations[v].id ) {
+						if ( Landmarks[k].id == Landmarks_observations[v].id ) {
 							mu_x = Landmarks[k].x;
 							mu_y = Landmarks[k].y;
 							break;
