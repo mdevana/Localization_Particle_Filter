@@ -97,7 +97,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 
 }
 
-void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, 
+void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> predicted, 
                                      vector<LandmarkObs>& observations) {
   /**
    * TODO: Find the predicted measurement that is closest to each 
@@ -109,7 +109,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    */
    double calc_dist;
    for (std::size_t i = 0; i < observations.size(); i++) {
-	double min_dist = 10000000;
+	double min_dist = sensor_range;
 	LandmarkObs close_LandMarkObs;
 	for (std::size_t j = 0; j < predicted.size(); j++){
 		calc_dist=dist ( predicted[i].x, predicted[i].y, observations[j].x, observations[j].y);
@@ -142,7 +142,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    */
    double head_angle, x_m, y_m,x_c,y_c,mu_x,mu_y;
    
-   
+   // Copy Landmark from maps to structure  data structure
    vector<LandmarkObs> Landmarks;
    for (std::size_t l=0; l < map_landmarks.landmark_list.size(); l++) {
 	   LandmarkObs new_landmark;
@@ -153,11 +153,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   Landmarks.push_back(new_landmark);
    }
    
+   // Make a copy of observation vector
    vector<LandmarkObs> Landmarks_observations=observations; 
-   
-   
 
-   dataAssociation(Landmarks,Landmarks_observations);
    
    for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
 	   std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
@@ -166,13 +164,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    
    for (int i = 0; i < num_particles; ++i) {
 	   
-	    double final_weight=1.0;
+	    // Collect data for transformation
+		head_angle = particles[i].theta; 
 		
-		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta;
+		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<head_angle;
 		
+		// Loop to make transformation from Car to Map coordinate using particle heading and Position
 		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
 			
-			head_angle = particles[i].theta; 
+			
 			
 			x_c = Landmarks_observations[v].x;
 			y_c = Landmarks_observations[v].y;
@@ -182,31 +182,34 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_m = particles[i].x + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
+			Landmarks_observations[v].x = x_m;
+			Landmarks_observations[v].y = y_m;
+		}
+		
+		// Associate Observed Landmarks to Landmarks
+		dataAssociation(sensor_range,Landmarks,Landmarks_observations);
+		
+		// Calculate Weights using multivariante Gaussian Distribution
+		double final_weight=1.0;
+		
+		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
+			
+			
 			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
+				
 				if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
 					mu_x = map_landmarks.landmark_list[k].x_f;
 					mu_y = map_landmarks.landmark_list[k].y_f;
 				}
 			}
 			
+			x_m = Landmarks_observations[v].x;
+			y_m = Landmarks_observations[v].y;
+		
+			
 			std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
-			
-			double sigma_x=std_landmark[0];
-			double sigma_y=std_landmark[1];
-			
-			double pre_multiplier = ( 1.0 / 2.0 * 3.142 * sigma_x *  sigma_y );
-			std::cout<<" pre multiplier="<< pre_multiplier<< std::endl;
-			double exp_term_1 = ( x_m - mu_x ) * ( x_m - mu_x ) / ( 2 * sigma_x * sigma_x);
-			std::cout<<" exp_term1="<< exp_term_1<< std::endl;
-  
-			double exp_term_2 = ( y_m - mu_y ) * ( y_m - mu_y ) / ( 2 * sigma_y * sigma_y);
-			std::cout<<" exp_term2="<< exp_term_2<< std::endl;
-  
-			double exponent= exp_term_1 + exp_term_2 ;
-			double d = pre_multiplier * exp(-exponent);
-			
-			
-			//double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
+
+			double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 			std::cout << "multi prob value = " << d << std::endl;
 			final_weight*=d;
 		}

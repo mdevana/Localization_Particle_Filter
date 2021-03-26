@@ -69,17 +69,17 @@ inline double dist(double x1, double y1, double x2, double y2) {
 inline double multi_prob_dist(double x, double y, double mean_x, double mean_y, double sigma_x, double sigma_y) {
   	
   double pre_multiplier = ( 1.0 / 2.0 * M_PI * sigma_x *  sigma_y );
-  std::cout<<" pre multiplier="<< pre_multiplier<< std::endl;
+  //std::cout<<" pre multiplier="<< pre_multiplier<< std::endl;
   double exp_term_1 = ( x - mean_x ) * ( x - mean_x ) / ( 2 * sigma_x * sigma_x);
-  std::cout<<" exp_term1="<< exp_term_1<< std::endl;
+  //std::cout<<" exp_term1="<< exp_term_1<< std::endl;
   
   double exp_term_2 = ( y - mean_y ) * ( y - mean_y ) / ( 2 * sigma_y * sigma_y);
-  std::cout<<" exp_term2="<< exp_term_2<< std::endl;
+  //std::cout<<" exp_term2="<< exp_term_2<< std::endl;
   
   double exponent= exp_term_1 + exp_term_2 ;
   double result = pre_multiplier * exp(-exponent);
-  std::cout<<" result ="<<result<< std::endl;
-  return ( pre_multiplier * exp ( -1 * (exp_term_1 + exp_term_2)));
+  //std::cout<<" result ="<<result<< std::endl;
+  return ( result );
 
 }
 
