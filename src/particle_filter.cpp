@@ -135,7 +135,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    */
    double calc_dist;
    for (std::size_t i = 0; i < observations.size(); i++) {
-	double min_dist = numeric_limits<double>::max();
+	double min_dist = std::numeric_limits<double>::max();
 	int close_LandMarkObs_id;
 	for (std::size_t j = 0; j < predicted.size(); j++){
 		calc_dist=dist ( predicted[j].x, predicted[j].y, observations[i].x, observations[i].y);
@@ -145,7 +145,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
 		}
 	}
 		
-			observations[i].id= close_LandMarkObs.id;
+			observations[i].id= close_LandMarkObs_id;
 		
 	}
 	
