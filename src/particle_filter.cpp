@@ -54,7 +54,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 current_particle.id=(i+1);
 	 current_particle.x= x + dist_x(gen);
 	 current_particle.y= y + dist_y(gen);
-	 current_particle.theta=d theta + dist_theta(gen);
+	 current_particle.theta= theta + dist_theta(gen);
 	 current_particle.weight=1;
 	 P.push_back(current_particle);
 	  
