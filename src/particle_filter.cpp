@@ -44,6 +44,10 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   
   std::vector<Particle> P;
   
+  std::cout<< " initial X = "<< x << " initial Y "<< y <<std::endl;
+  std::cout<< " dist X = "<< dist_x(gen) << " dist Y "<< dist_y(gen) <<std::endl;
+  
+  
   for (int i = 0; i < num_particles; ++i) {
 	  
 	 Particle current_particle;
