@@ -105,7 +105,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 
 }
 
-void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> predicted, 
+void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, 
                                      vector<LandmarkObs>& observations) {
   /**
    * TODO: Find the predicted measurement that is closest to each 
@@ -117,7 +117,7 @@ void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> pre
    */
    double calc_dist;
    for (std::size_t i = 0; i < observations.size(); i++) {
-	double min_dist = sensor_range;
+	double min_dist = 10000000;
 	LandmarkObs close_LandMarkObs;
 	for (std::size_t j = 0; j < predicted.size(); j++){
 		calc_dist=dist ( predicted[j].x, predicted[j].y, observations[i].x, observations[i].y);
@@ -125,9 +125,7 @@ void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> pre
 			min_dist=calc_dist;
 			close_LandMarkObs= predicted[j];
 		}
-		if (min_dist < sensor_range ){
-			//std::cout << " Sensor Range :"<< sensor_range<<std::endl;
-			//std::cout << " min distance :"<< min_dist<<std::endl;
+		if (min_dist < 10000000 ){
 			observations[i].id= close_LandMarkObs.id;
 		}
 	}
@@ -155,15 +153,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    double head_angle, x_p, y_p, x_m, y_m,x_c,y_c,mu_x,mu_y;
    
    // Copy Landmark from maps to structure  data structure
-   vector<LandmarkObs> Landmarks;
-   for (std::size_t l=0; l < map_landmarks.landmark_list.size(); l++) {
-	   LandmarkObs new_landmark;
-	   new_landmark.id=map_landmarks.landmark_list[l].id_i;
-	   new_landmark.x=map_landmarks.landmark_list[l].x_f;
-	   new_landmark.y=map_landmarks.landmark_list[l].y_f;
-	   //std::cout<< " landmark X= "<< map_landmarks.landmark_list[l].x_f << " landmark Y= "<< map_landmarks.landmark_list[l].y_f << " landmark id =  "<<map_landmarks.landmark_list[l].id_i;
-	   Landmarks.push_back(new_landmark);
-   }
+   
+   
    
    // Make a copy of observation vector
    vector<LandmarkObs> Landmarks_observations=observations; 
@@ -177,8 +168,21 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		head_angle = particles[i].theta; 
 		x_p = particles[i].x;
 		y_p = particles[i].y;
-		
 		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<head_angle;
+		
+		// include only Landmarks inside Sensor Range
+		vector<LandmarkObs> Landmarks;
+
+		for (std::size_t l=0; l < map_landmarks.landmark_list.size(); l++) {
+			LandmarkObs new_landmark;
+			new_landmark.id=map_landmarks.landmark_list[l].id_i;
+			new_landmark.x=map_landmarks.landmark_list[l].x_f;
+			new_landmark.y=map_landmarks.landmark_list[l].y_f;
+			//std::cout<< " landmark X= "<< map_landmarks.landmark_list[l].x_f << " landmark Y= "<< map_landmarks.landmark_list[l].y_f << " landmark id =  "<<map_landmarks.landmark_list[l].id_i;
+			calc_dist=dist ( particles[i].x , particles[i].y, new_landmark.x, new_landmark.y);
+			if (calc_dist<sensor_range)
+				Landmarks.push_back(new_landmark);
+		}
 		
 		// Loop to make transformation from Car to Map coordinate using particle heading and Position
 		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
@@ -198,7 +202,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		}
 		
 		// Associate Observed Landmarks to Landmarks
-		dataAssociation(sensor_range,Landmarks,Landmarks_observations);
+		dataAssociation(Landmarks,Landmarks_observations);
 		
 		for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
 			std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
