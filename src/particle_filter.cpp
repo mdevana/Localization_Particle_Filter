@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   
-  num_particles = 2;  // TODO: Set the number of particles
+  num_particles = 100;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -118,8 +118,8 @@ void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> pre
 			close_LandMarkObs= predicted[j];
 		}
 		if (min_dist < sensor_range ){
-			std::cout << " Sensor Range :"<< sensor_range<<std::endl;
-			std::cout << " min distance :"<< min_dist<<std::endl;
+			//std::cout << " Sensor Range :"<< sensor_range<<std::endl;
+			//std::cout << " min distance :"<< min_dist<<std::endl;
 			observations[i].id= close_LandMarkObs.id;
 		}
 	}
