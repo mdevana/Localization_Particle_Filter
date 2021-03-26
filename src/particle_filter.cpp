@@ -38,7 +38,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  return;
   }
   
-  num_particles = 5;  // TODO: Set the number of particles
+  num_particles = 100;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -249,7 +249,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		}
 
 		std::cout<<" Final calculated weight for particle :"<< final_weight;
-		weights[i] = final_weight;
+		
 		particles[i].weight = final_weight;
 	}
 		
@@ -283,6 +283,13 @@ void ParticleFilter::resample() {
    std::mt19937 gen(rd());
    
    std::discrete_distribution<> d(0,1);
+   
+   for( int i = 0;i < num_particles; i++){
+	   weights[i]=particles[i].weight;
+	   
+   }
+   
+   NormalizeWeights();
    
    std::vector<Particle> particles_resampled;
    
