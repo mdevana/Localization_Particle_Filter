@@ -137,12 +137,13 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
 			min_dist=calc_dist;
 			close_LandMarkObs= predicted[j];
 		}
+	}
 		if (min_dist < 10000000 ){
 			observations[i].id= close_LandMarkObs.id;
 		}
 	}
 	
-   }
+   
 
 }
 
@@ -242,10 +243,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 						}
 					
 				}
-			
-				
-		
-			
+
 				std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
 
 				double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
