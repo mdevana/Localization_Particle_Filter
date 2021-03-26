@@ -193,7 +193,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			new_landmark.y=map_landmarks.landmark_list[l].y_f;
 			//std::cout<< " landmark X= "<< map_landmarks.landmark_list[l].x_f << " landmark Y= "<< map_landmarks.landmark_list[l].y_f << " landmark id =  "<<map_landmarks.landmark_list[l].id_i;
 			calc_dist=dist ( particles[i].x , particles[i].y, new_landmark.x, new_landmark.y);
-			if (calc_dist<sensor_range)
+			if (calc_dist <= sensor_range)
 				Landmarks.push_back(new_landmark);
 		}
 		
@@ -283,11 +283,6 @@ void ParticleFilter::resample() {
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
    
-   std::random_device rd;
-   std::mt19937 gen(rd());
-   
-   std::discrete_distribution<> d(0,1);
-   
    double max_weight = std::numeric_limits<double>::min();
    
    for( int i = 0;i < num_particles; i++){
@@ -297,24 +292,18 @@ void ParticleFilter::resample() {
 	   
    }
    
-   NormalizeWeights();  
-   
-   for( int i = 0;i < num_particles; i++){
-	   
-	   if (weights[i] > max_weight)
-		max_weight = weights[i];
-	   
-   }
+   uniform_real_distribution<double> distForBeta(0.0, 2 * max_weight);
+   uniform_int_distribution<int> distForIndex(0, num_particles - 1);
    
    std::vector<Particle> particles_resampled;
    
    double beta = 0.0;
    
-   int index = (int) (d(gen) * (num_particles-1));
+   int index = distForIndex(gen);
    
    for( int i = 0; i < num_particles; i++){
 	   
-	   beta += (d(gen) * 2.0 * max_weight);
+	   beta += distForBeta(gen);
 	   while ( beta > weights[index] ){
 		   beta -= weights[index];
 		   index = ( index + 1 ) % num_particles ;
