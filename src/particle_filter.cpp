@@ -297,7 +297,7 @@ void ParticleFilter::resample() {
 	   
    }
    
-   //NormalizeWeights();
+   //NormalizeWeights();  
    
    std::vector<Particle> particles_resampled;
    
