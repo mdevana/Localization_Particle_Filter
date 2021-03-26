@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   
-  num_particles = 100;  // TODO: Set the number of particles
+  num_particles = 2;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -72,9 +72,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    
    std::default_random_engine gen;
   
-   normal_distribution<double> dist_x(0, std_pos[0]);
-   normal_distribution<double> dist_y(0, std_pos[1]);
-   normal_distribution<double> dist_theta(0, std_pos[2]);
+   
    std::cout<<" Prediction step"<<std::endl;
    
    std::cout<< " Velocity = "<< velocity << " Yaw Rate "<< yaw_rate << " delta=  "<<delta_t<<std::endl;
@@ -83,6 +81,10 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    for (int i = 0; i < num_particles; ++i) {
 	  
 	 //std::cout<<particles[i].id;
+	 normal_distribution<double> dist_x(particles[i].x, std_pos[0]);
+     normal_distribution<double> dist_y(particles[i].y, std_pos[1]);
+     normal_distribution<double> dist_theta(particles[i].theta, std_pos[2]);
+	 
 	 std::cout<<"before prediction" <<" X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta<<std::endl;
 	 
 	 particles[i].x= ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
@@ -144,7 +146,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
-   double head_angle, x_m, y_m,x_c,y_c,mu_x,mu_y;
+   double head_angle, x_p, y_p, x_m, y_m,x_c,y_c,mu_x,mu_y;
    
    // Copy Landmark from maps to structure  data structure
    vector<LandmarkObs> Landmarks;
@@ -170,6 +172,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	   
 	    // Collect data for transformation
 		head_angle = particles[i].theta; 
+		x_p = particles[i].x;
+		y_p = particles[i].y;
 		
 		std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<head_angle;
 		
@@ -183,8 +187,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			
 			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
-			x_m = particles[i].x + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
-			y_m = particles[i].y + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
+			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
+			y_m = y_p + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
 			Landmarks_observations[v].x = x_m;
 			Landmarks_observations[v].y = y_m;
