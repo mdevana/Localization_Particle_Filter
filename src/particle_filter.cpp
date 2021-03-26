@@ -163,7 +163,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
-   double head_angle, x_p, y_p, x_m, y_m,x_c,y_c,mu_x,mu_y;
+   double head_angle, x_p, y_p, x_m, y_m, x_c,y_c,mu_x,mu_y;
    double calc_dist;
    
    // Copy Landmark from maps to structure  data structure
@@ -213,7 +213,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = y_p + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
-			Landmarks_observations.push_back(LandmarkObs(observations[v].id,x_m,y_m));
+			Landmarks_observations.push_back(LandmarkObs{observations[v].id, x_m, y_m});
 		}
 		
 		// Associate Observed Landmarks to Landmarks
