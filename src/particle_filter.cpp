@@ -52,9 +52,9 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
 	 Particle current_particle;
 	 current_particle.id=(i+1);
-	 current_particle.x= x + dist_x(gen);
-	 current_particle.y= y + dist_y(gen);
-	 current_particle.theta= theta + dist_theta(gen);
+	 current_particle.x = dist_x(gen);
+	 current_particle.y = dist_y(gen);
+	 current_particle.theta=  dist_theta(gen);
 	 current_particle.weight=1;
 	 P.push_back(current_particle);
 	  
@@ -93,9 +93,21 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 	 
 	 std::cout<<"before prediction" <<" X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta<<std::endl;
 	 
-	 particles[i].x= ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
-	 particles[i].y= ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) + dist_y(gen);
-	 particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) + dist_theta(gen);
+	 if (fabs(yaw_rate)< 0.00001){ // no rotation motion
+	 
+		 particles[i].x = ( particles[i].x + velocity *  delta_t * cos(particles[i].theta) ) + dist_x(gen);
+		 particles[i].y = ( particles[i].y + velocity *  delta_t * sin(particles[i].theta) ) + dist_y(gen);
+		 particles[i].theta = particles[i].theta + dist_theta(gen);
+		 
+	 }
+	 else {
+		 
+		 particles[i].x = ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
+		 particles[i].y = ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) + dist_y(gen);
+		 particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) + dist_theta(gen);
+	 }
+	 
+	 
 	 
 	 std::cout<< " X= "<< particles[i].x << " Y= "<< particles[i].y << " theta=  "<<particles[i].theta<<std::endl;
 
@@ -158,7 +170,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    
    
    // Make a copy of observation vector
-   vector<LandmarkObs> Landmarks_observations=observations; 
+   
 
    
    
@@ -173,6 +185,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		// include only Landmarks inside Sensor Range
 		vector<LandmarkObs> Landmarks;
+		
+		vector<LandmarkObs> Landmarks_observations; 
 
 		for (std::size_t l=0; l < map_landmarks.landmark_list.size(); l++) {
 			LandmarkObs new_landmark;
@@ -186,20 +200,19 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		}
 		
 		// Loop to make transformation from Car to Map coordinate using particle heading and Position
-		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
+		for (std::size_t v=0; v < observations.size(); v++) {
 			
 			
 			
-			x_c = Landmarks_observations[v].x;
-			y_c = Landmarks_observations[v].y;
+			x_c = observations[v].x;
+			y_c = observations[v].y;
 			
 			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
 			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = y_p + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
 			
-			Landmarks_observations[v].x = x_m;
-			Landmarks_observations[v].y = y_m;
+			Landmarks_observations.push_back(LandmarkObs(observations[v].id,x_m,y_m));
 		}
 		
 		// Associate Observed Landmarks to Landmarks
@@ -217,19 +230,20 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
 			
-			if (Landmarks_observations[v].id != 0){
+				x_m = Landmarks_observations[v].x;
+				y_m = Landmarks_observations[v].y;
 			
-				for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
+				for (std::size_t k=0; k < Landmarks.size(); k++) {
 
-						if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
-							mu_x = map_landmarks.landmark_list[k].x_f;
-							mu_y = map_landmarks.landmark_list[k].y_f;
+						if ( Landmarks[k].id_i == Landmarks_observations[v].id ) {
+							mu_x = Landmarks[k].x;
+							mu_y = Landmarks[k].y;
+							break;
 						}
 					
 				}
 			
-				x_m = Landmarks_observations[v].x;
-				y_m = Landmarks_observations[v].y;
+				
 		
 			
 				std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
@@ -237,7 +251,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				double d = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 				std::cout << "multi prob value = " << d << std::endl;
 				final_weight*=d;
-			}
+			
 		}
 
 		std::cout<<" Final calculated weight for particle :"<< final_weight;
