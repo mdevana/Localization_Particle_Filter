@@ -117,8 +117,11 @@ void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> pre
 			min_dist=calc_dist;
 			close_LandMarkObs= predicted[j];
 		}
-		if (min_dist < sensor_range )
+		if (min_dist < sensor_range ){
+			std::cout << " Sensor Range :"<< sensor_range<<std::endl;
+			std::cout << " min distance :"<< min_dist<<std::endl;
 			observations[i].id= close_LandMarkObs.id;
+		}
 	}
 	
    }
