@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   
-  num_particles = 2;  // TODO: Set the number of particles
+  num_particles = 5;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -169,10 +169,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    vector<LandmarkObs> Landmarks_observations=observations; 
 
    
-   for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
-	   std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
-	   
-   }
+   
    
    for (int i = 0; i < num_particles; ++i) {
 	   
@@ -203,7 +200,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		// Associate Observed Landmarks to Landmarks
 		dataAssociation(sensor_range,Landmarks,Landmarks_observations);
 		
+		for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
+			std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
+	   
+		}
+		
 		// Calculate Weights using multivariante Gaussian Distribution
+		
+		
 		double final_weight=1.0;
 		
 		for (std::size_t v=0; v < Landmarks_observations.size(); v++) {
@@ -231,7 +235,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			}
 		}
 
-		
+		std::cout<<" Final calculated weight for particle :"<< final_weight;
 		weights[i] = final_weight;
 		particles[i].weight = final_weight;
 	}
