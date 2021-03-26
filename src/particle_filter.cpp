@@ -288,7 +288,7 @@ void ParticleFilter::resample() {
    
    std::discrete_distribution<> d(0,1);
    
-   double max_weight = std::numeric_limits<double>::min
+   double max_weight = std::numeric_limits<double>::min;
    
    for( int i = 0;i < num_particles; i++){
 	   weights[i]=particles[i].weight;
@@ -305,7 +305,7 @@ void ParticleFilter::resample() {
    
    int index = (int) (d(gen) * (num_particles-1));
    
-   for( int i = 0;i < num_particles; i++){
+   for( int i = 0; i < num_particles; i++){
 	   
 	   beta += (d(gen) * 2.0 * max_weight);
 	   while ( beta > weights[index] ){
