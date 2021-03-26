@@ -248,7 +248,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				}
 				
 				std::cout << "multi prob value = " << wt << std::endl;
-				final_weight*=d;
+				final_weight*=wt;
 			
 		}
 
