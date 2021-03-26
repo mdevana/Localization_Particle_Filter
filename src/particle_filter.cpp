@@ -117,7 +117,8 @@ void ParticleFilter::dataAssociation(double sensor_range,vector<LandmarkObs> pre
 			min_dist=calc_dist;
 			close_LandMarkObs= predicted[j];
 		}
-		observations[i].id= close_LandMarkObs.id;
+		if (min_dist < sensor_range )
+			observations[i].id= close_LandMarkObs.id;
 	}
 	
    }
@@ -196,10 +197,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			
 			
 			for (std::size_t k=0; k < map_landmarks.landmark_list.size(); k++) {
-				
-				if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
-					mu_x = map_landmarks.landmark_list[k].x_f;
-					mu_y = map_landmarks.landmark_list[k].y_f;
+				if (Landmarks_observations[v].id != 0){
+					
+					if ( map_landmarks.landmark_list[k].id_i == Landmarks_observations[v].id ) {
+						mu_x = map_landmarks.landmark_list[k].x_f;
+						mu_y = map_landmarks.landmark_list[k].y_f;
+					}
 				}
 			}
 			
