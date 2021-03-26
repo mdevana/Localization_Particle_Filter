@@ -292,8 +292,8 @@ void ParticleFilter::resample() {
 	   
    }
    
-   uniform_real_distribution<double> distForBeta(0.0, 2 * max_weight);
-   uniform_int_distribution<int> distForIndex(0, num_particles - 1);
+   std::uniform_real_distribution<double> distForBeta(0.0, 2 * max_weight);
+   std::uniform_int_distribution<int> distForIndex(0, num_particles - 1);
    
    std::vector<Particle> particles_resampled;
    
