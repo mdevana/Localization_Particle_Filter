@@ -297,7 +297,14 @@ void ParticleFilter::resample() {
 	   
    }
    
-   //NormalizeWeights();  
+   NormalizeWeights();  
+   
+   for( int i = 0;i < num_particles; i++){
+	   
+	   if (weights[i] > max_weight)
+		max_weight = weights[i];
+	   
+   }
    
    std::vector<Particle> particles_resampled;
    
