@@ -60,10 +60,10 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 current_particle.id=(i+1);
 	 //current_particle.x = dist_x(gen);
 	 //current_particle.y = dist_y(gen);
-	 current_particle.x = 4;
-	 current_particle.y = 5;
+	 current_particle.x = x;
+	 current_particle.y = y;
 	 //current_particle.theta=  dist_theta(gen);
-	 current_particle.theta=  -90 * 3.142 / 180.0;
+	 current_particle.theta=  -1 * theta * 3.142 / 180.0;
 	 current_particle.weight=1.0;
 	 particles.push_back(current_particle);
 	  
