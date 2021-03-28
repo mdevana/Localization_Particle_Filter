@@ -145,18 +145,18 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    double calc_dist;
    for (std::size_t i = 0; i < observations.size(); i++) {
 	double min_dist = std::numeric_limits<double>::max();
-	std::cout<< " observation X= "<< observations[i].x<< " observation Y= "<< observations[i].y<<std::endl;
+	//std::cout<< " observation X= "<< observations[i].x<< " observation Y= "<< observations[i].y<<std::endl;
 	int close_LandMarkObs_id;
 	for (std::size_t j = 0; j < predicted.size(); j++){
 		calc_dist=dist ( predicted[j].x, predicted[j].y, observations[i].x, observations[i].y);
-		std::cout<< " landmark X= "<< predicted[j].x << " landmark Y= "<< predicted[j].y << " landmark id =  "<<predicted[j].id<< " calc dist ="<<calc_dist<<std::endl;
+		//std::cout<< " landmark X= "<< predicted[j].x << " landmark Y= "<< predicted[j].y << " landmark id =  "<<predicted[j].id<< " calc dist ="<<calc_dist<<std::endl;
 		if (calc_dist < min_dist) {
-			std::cout<< "min dist "<< min_dist<< " calc dist "<< calc_dist<<std::endl;
+			//std::cout<< "min dist "<< min_dist<< " calc dist "<< calc_dist<<std::endl;
 			min_dist=calc_dist;
 			close_LandMarkObs_id= predicted[j].id;
 		}
 	}
-	std::cout<<"assigned landmark id :"<<close_LandMarkObs_id<<std::endl;	
+	//std::cout<<"assigned landmark id :"<<close_LandMarkObs_id<<std::endl;	
 	observations[i].id= close_LandMarkObs_id;
 		
 	}
@@ -216,14 +216,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_c = observations[v].x;
 			y_c = observations[v].y;
 			
-			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle<<std::endl;
+			//std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle<<std::endl;
 			
 			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = y_p + ( sin(head_angle) * x_c  + cos(head_angle) * y_c );
 			
-			std::cout<< " X_p= "<< x_p << " Y_p = "<< y_p << " theta=  "<<head_angle<<std::endl;
+			//std::cout<< " X_p= "<< x_p << " Y_p = "<< y_p << " theta=  "<<head_angle<<std::endl;
 			
-			std::cout<< " X_m= "<< x_m << " Y_m = "<< y_m << " cos(headangle) =  "<<cos(head_angle)<<" sin(headangle) =  "<<sin(head_angle)<<std::endl;
+			//std::cout<< " X_m= "<< x_m << " Y_m = "<< y_m << " cos(headangle) =  "<<cos(head_angle)<<" sin(headangle) =  "<<sin(head_angle)<<std::endl;
 			
 			Landmarks_observations.push_back(LandmarkObs{observations[v].id, x_m, y_m});
 		}
@@ -231,10 +231,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		// Associate Observed Landmarks to Landmarks
 		dataAssociation(Landmarks,Landmarks_observations);
 		
-		for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
+		/*for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
 			std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
 	   
-		}
+		}*/
 		
 		// Calculate Weights using multivariante Gaussian Distribution
 		
@@ -256,14 +256,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 					
 				}
 
-				std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
+				//std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
 
 				double wt = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 				if (wt == 0 ){
 					wt=0.00001;
 				}
 				
-				std::cout << "multi prob value = " << wt << std::endl;
+				//std::cout << "multi prob value = " << wt << std::endl;
 				final_weight*=wt;
 			
 		}
