@@ -111,15 +111,15 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 	 }
 	 else {
 		 
-		 //particles[i].x = ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
-		 //particles[i].y = ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) + dist_y(gen);
-		 //particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) + dist_theta(gen);
+		 particles[i].x = ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) + dist_x(gen);
+		 particles[i].y = ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) + dist_y(gen);
+		 particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) + dist_theta(gen);
 		 
 		 
 		 
-		 particles[i].x = ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) ;
-		 particles[i].y = ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) ;
-		 particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) ;
+		 //particles[i].x = ( particles[i].x + (velocity/yaw_rate) * (sin( particles[i].theta + delta_t * yaw_rate) - sin( particles[i].theta)) ) ;
+		 //particles[i].y = ( particles[i].y + (velocity/yaw_rate) * (cos( particles[i].theta ) - cos( particles[i].theta +  delta_t * yaw_rate))) ;
+		 //particles[i].theta = ( particles[i].theta + ( yaw_rate * delta_t) ) ;
 	 }
 	 
 	 
