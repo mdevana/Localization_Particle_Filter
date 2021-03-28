@@ -289,7 +289,7 @@ void ParticleFilter::NormalizeWeights() {
 	
 	for (int i = 0; i < num_particles; ++i) {
 		std::cout<<"Particle x Coordinate :" << particles[i].x;
-		sztd::cout<<"Particle y Coordinate :"<< particles[i].y;
+		std::cout<<"Particle y Coordinate :"<< particles[i].y;
 		std::cout<<"Particle theta Coordinate :" << particles[i].theta;
 	}
 	
