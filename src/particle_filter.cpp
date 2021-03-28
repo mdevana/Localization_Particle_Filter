@@ -392,19 +392,25 @@ void ParticleFilter::resample() {
 	   
    }
    std::cout<<" in resampling code max weights"<<max_weight<<std::endl;
-   std::uniform_real_distribution<double> distForBeta(0.0, 2 * max_weight);
-   std::uniform_int_distribution<int> distForIndex(0, num_particles - 1);
+   static std::default_random_engine gen3;
+   std::uniform_real_distribution<double> distForBeta(0.0,1.0);
+   //std::uniform_int_distribution<int> distForIndex(0, num_particles - 1);
+   
+   
+    std::random_device rd;
+    std::mt19937 gen2(rd());
+    std::discrete_distribution<> dist({weights.begin(),weights.end()});
    
    std::vector<Particle> particles_resampled;
    
    double beta = 0.0;
    
-   int index = distForIndex(gen);
+   int index = dist(gen2);
    std::cout<<" in resampling code index "<<index <<std::endl;
    
    for( int i = 0; i < num_particles; i++){
 	   
-	   beta += distForBeta(gen);
+	   beta += distForBeta(gen3)* 2 * max_weight;
 	   while ( beta > weights[index] ){
 		   beta -= weights[index];
 		   index = ( index + 1 ) % num_particles ;
