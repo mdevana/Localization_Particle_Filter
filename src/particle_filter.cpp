@@ -218,7 +218,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = y_p + ( sin(head_angle) * x_c  + cos(head_angle) * y_c );
 			
-			std::cout<< " X_m= "<< x_m << " Y_m = "<< y_m << " theta=  "<<head_angle<<std::endl;
+			std::cout<< " X_p= "<< x_p << " Y_p = "<< y_p << " theta=  "<<head_angle<<std::endl;
+			
+			std::cout<< " X_m= "<< x_m << " Y_m = "<< y_m << " cos(headangle) =  "<<cos(head_angle)<<" sin(headangle) =  "<<sin(head_angle)<<std::endl;
 			
 			Landmarks_observations.push_back(LandmarkObs{observations[v].id, x_m, y_m});
 		}
