@@ -274,23 +274,23 @@ void ParticleFilter::NormalizeWeights() {
 	for (std::size_t i=0; i < weights.size(); i++){
 		weights[i]=weights[i]*inv_mag;
 	}*/
-	double M_PI = 3.14159265358979323846;
+	const double A_PI = 3.14159265358979323846;
 	for (int i = 0; i < num_particles; ++i) {
-		cout<<"Particle x Coordinate : << particle[i].x;
-		cout<<"Particle y Coordinate : << particle[i].y;
-		cout<<"Particle theta Coordinate : << particle[i].theta;
+		std::cout<<"Particle x Coordinate :" << particle[i].x;
+		std::cout<<"Particle y Coordinate :"<< particle[i].y;
+		std::cout<<"Particle theta Coordinate :"<< particle[i].theta;
 	}
 	double delta_t=0.1;
 	double std_pos[3]={0.3, 0.3, 0.01};
 	double velocity = 110.0; 
-	double yaw_rate = M_PI / 8;
+	double yaw_rate = A_PI / 8;
 	
 	prediction(delta_t,std_pos,velocity,yaw_rate);
 	
 	for (int i = 0; i < num_particles; ++i) {
-		cout<<"Particle x Coordinate : << particle[i].x;
-		cout<<"Particle y Coordinate : << particle[i].y;
-		cout<<"Particle theta Coordinate : << particle[i].theta;
+		std::cout<<"Particle x Coordinate :" << particle[i].x;
+		sztd::cout<<"Particle y Coordinate :"<< particle[i].y;
+		std::cout<<"Particle theta Coordinate :" << particle[i].theta;
 	}
 	
 	
