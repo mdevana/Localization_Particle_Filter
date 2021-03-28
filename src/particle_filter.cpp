@@ -213,10 +213,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			x_c = observations[v].x;
 			y_c = observations[v].y;
 			
-			//std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
+			std::cout<< " X_c= "<< x_c << " Y_c = "<< y_c << " theta=  "<<head_angle;
 			
 			x_m = x_p + ( cos(head_angle) * x_c  - sin(head_angle) * y_c );
 			y_m = y_p + ( sin(head_angle) * x_c  - cos(head_angle) * y_c );
+			
+			std::cout<< " X_m= "<< x_m << " Y_m = "<< y_m << " theta=  "<<head_angle;
 			
 			Landmarks_observations.push_back(LandmarkObs{observations[v].id, x_m, y_m});
 		}
@@ -354,7 +356,10 @@ void ParticleFilter::NormalizeWeights() {
     // Add to landmark list of map
     map.landmark_list.push_back(single_landmark_temp);
 	
+	double sensor_range = 50;
+	double sigma_landmark [2] = {0.3, 0.3};
 	
+	updateWeights(sensor_range,sigma_landmark,obs,map);
 	
 		
 	
