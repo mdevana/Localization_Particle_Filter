@@ -46,6 +46,10 @@ int main() {
 
   // Create particle filter
   ParticleFilter pf;
+  ParticleFilter pf2;
+  pf2.init(4,5, -90, sigma_pos);
+  Pf2.NormalizeWeights();
+  
 
   h.onMessage([&pf,&map,&delta_t,&sensor_range,&sigma_pos,&sigma_landmark]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 

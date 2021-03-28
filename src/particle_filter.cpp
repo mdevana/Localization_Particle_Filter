@@ -38,7 +38,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  return;
   }
   
-  num_particles = 100;  // TODO: Set the number of particles
+  num_particles = 1;  // TODO: Set the number of particles
   std::vector<double> wts(num_particles,1); // initialise a vector of equal weights
   weights = wts;
   
@@ -58,9 +58,12 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	  
 	 Particle current_particle;
 	 current_particle.id=(i+1);
-	 current_particle.x = dist_x(gen);
-	 current_particle.y = dist_y(gen);
-	 current_particle.theta=  dist_theta(gen);
+	 //current_particle.x = dist_x(gen);
+	 //current_particle.y = dist_y(gen);
+	 current_particle.x = 4;
+	 current_particle.x = 5;
+	 //current_particle.theta=  dist_theta(gen);
+	 current_particle.theta=  -90 * 3.142 / 180.0;
 	 current_particle.weight=1.0;
 	 particles.push_back(current_particle);
 	  
@@ -263,14 +266,89 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 void ParticleFilter::NormalizeWeights() {
 	
-	double mag=0.0;
+	/*double mag=0.0;
 	for (std::size_t i=0; i < weights.size(); i++){
 		mag+=weights[i];
 	}
 	double inv_mag= (1.0 / mag);
 	for (std::size_t i=0; i < weights.size(); i++){
 		weights[i]=weights[i]*inv_mag;
+	}*/
+	double M_PI = 3.14159265358979323846;
+	for (int i = 0; i < num_particles; ++i) {
+		cout<<"Particle x Coordinate : << particle[i].x;
+		cout<<"Particle y Coordinate : << particle[i].y;
+		cout<<"Particle theta Coordinate : << particle[i].theta;
 	}
+	double delta_t=0.1;
+	double std_pos[3]={0.3, 0.3, 0.01};
+	double velocity = 110.0; 
+	double yaw_rate = M_PI / 8;
+	
+	prediction(delta_t,std_pos,velocity,yaw_rate);
+	
+	for (int i = 0; i < num_particles; ++i) {
+		cout<<"Particle x Coordinate : << particle[i].x;
+		cout<<"Particle y Coordinate : << particle[i].y;
+		cout<<"Particle theta Coordinate : << particle[i].theta;
+	}
+	
+	
+	LandmarkObs OBS1,OBS2,OBS3;
+	
+	OBS1.x = 2;
+	OBS1.y = 2;
+	
+	OBS1.x = 3;
+	OBS1.y = -2;
+	
+	OBS1.x = 0;
+	OBS1.y = -4;
+	
+	vector<LandmarkObs> obs{OBS1,OBS2,OBS3};
+
+    // Declare single_landmark
+    Map::single_landmark_s single_landmark_temp;
+
+    // Set values
+    single_landmark_temp.id_i = 1;
+    single_landmark_temp.x_f  = 5;
+    single_landmark_temp.y_f  = 3;
+
+    // Add to landmark list of map
+    map.landmark_list.push_back(single_landmark_temp);
+	
+	single_landmark_temp.id_i = 2;
+    single_landmark_temp.x_f  = 2;
+    single_landmark_temp.y_f  = 1;
+
+    // Add to landmark list of map
+    map.landmark_list.push_back(single_landmark_temp);
+	
+	single_landmark_temp.id_i = 3;
+    single_landmark_temp.x_f  = 6;
+    single_landmark_temp.y_f  = 1;
+
+    // Add to landmark list of map
+    map.landmark_list.push_back(single_landmark_temp);
+	
+	single_landmark_temp.id_i = 4;
+    single_landmark_temp.x_f  = 7;
+    single_landmark_temp.y_f  = 4;
+
+    // Add to landmark list of map
+    map.landmark_list.push_back(single_landmark_temp);
+	
+	single_landmark_temp.id_i = 5;
+    single_landmark_temp.x_f  = 4;
+    single_landmark_temp.y_f  = 7;
+
+    // Add to landmark list of map
+    map.landmark_list.push_back(single_landmark_temp);
+	
+	
+	
+		
 	
 }
 
