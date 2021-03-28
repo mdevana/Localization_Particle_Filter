@@ -381,32 +381,29 @@ void ParticleFilter::resample() {
    */
    
    double max_weight = std::numeric_limits<double>::min();
-   
-   std::cout<<" in resampling code"<<std::endl;
-   
+
    for( int i = 0;i < num_particles; i++){
 	   weights[i]=particles[i].weight;
-	   std::cout<<" in resampling code index weights"<<weights[i] <<std::endl;
+	   
 	   if (particles[i].weight > max_weight)
 		max_weight = particles[i].weight;
 	   
    }
-   std::cout<<" in resampling code max weights"<<max_weight<<std::endl;
+   
    static std::default_random_engine gen3;
    std::uniform_real_distribution<double> distForBeta(0.0,1.0);
-   //std::uniform_int_distribution<int> distForIndex(0, num_particles - 1);
+     
    
-   
-    std::random_device rd;
-    std::mt19937 gen2(rd());
-    std::discrete_distribution<> dist(weights.begin(),weights.end());
+   std::random_device rd;
+   std::mt19937 gen2(rd());
+   std::discrete_distribution<> dist(weights.begin(),weights.end());
    
    std::vector<Particle> particles_resampled;
    
    double beta = 0.0;
    
    int index = dist(gen2);
-   std::cout<<" in resampling code index "<<index <<std::endl;
+   
    
    for( int i = 0; i < num_particles; i++){
 	   
@@ -418,7 +415,7 @@ void ParticleFilter::resample() {
 		particles_resampled.push_back(particles[index]);
 	   
    }
-   std::cout<<" in resampling code index..exting "<<index <<std::endl;
+   
    particles=particles_resampled;
 
 }
