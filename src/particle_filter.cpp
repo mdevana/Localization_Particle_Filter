@@ -399,7 +399,7 @@ void ParticleFilter::resample() {
    
     std::random_device rd;
     std::mt19937 gen2(rd());
-    std::discrete_distribution<> dist({weights.begin(),weights.end()});
+    std::discrete_distribution<> dist(weights.begin(),weights.end());
    
    std::vector<Particle> particles_resampled;
    
