@@ -228,10 +228,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		// Associate Observed Landmarks to Landmarks
 		dataAssociation(Landmarks,Landmarks_observations);
 		
-		//for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
-		//	std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
+		for (std::size_t t=0; t < Landmarks_observations.size(); t++) {
+			std::cout<< " landmark_obs X= "<< Landmarks_observations[t].x << " landmark_obs Y= "<< Landmarks_observations[t].y << " landmarkobs id =  "<<Landmarks_observations[t].id;
 	   
-		//}
+		}
 		
 		// Calculate Weights using multivariante Gaussian Distribution
 		
@@ -362,6 +362,7 @@ void ParticleFilter::NormalizeWeights() {
 	double sigma_landmark [2] = {0.3, 0.3};
 	
 	updateWeights(sensor_range,sigma_landmark,obs,map);
+	
 	
 		
 	
