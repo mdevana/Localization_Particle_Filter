@@ -61,7 +61,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	 //current_particle.x = dist_x(gen);
 	 //current_particle.y = dist_y(gen);
 	 current_particle.x = 4;
-	 current_particle.x = 5;
+	 current_particle.y = 5;
 	 //current_particle.theta=  dist_theta(gen);
 	 current_particle.theta=  -90 * 3.142 / 180.0;
 	 current_particle.weight=1.0;
@@ -276,9 +276,9 @@ void ParticleFilter::NormalizeWeights() {
 	}*/
 	const double A_PI = 3.14159265358979323846;
 	for (int i = 0; i < num_particles; ++i) {
-		std::cout<<"Particle x Coordinate :" << particles[i].x;
-		std::cout<<"Particle y Coordinate :"<< particles[i].y;
-		std::cout<<"Particle theta Coordinate :"<< particles[i].theta;
+		std::cout<<"Particle x Coordinate :" << particles[i].x<<std::endl;
+		std::cout<<"Particle y Coordinate :"<< particles[i].y<<std::endl;
+		std::cout<<"Particle theta Coordinate :"<< particles[i].theta<<std::endl;
 	}
 	double delta_t=0.1;
 	double std_pos[3]={0.3, 0.3, 0.01};
