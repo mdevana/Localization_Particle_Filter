@@ -50,8 +50,9 @@ int main() {
   ParticleFilter pf;
   //ParticleFilter pf2;
   //pf2.init(4,5, -90, sigma_pos);
-  //pf2.init(4,5, -1.5708, sigma_pos);
-  //pf2.NormalizeWeights();
+  pf2.init(4,5, -1.5708, sigma_pos);
+  pf2.NormalizeWeights();
+  
   
 
   h.onMessage([&pf,&map,&delta_t,&sensor_range,&sigma_pos,&sigma_landmark]
@@ -116,7 +117,7 @@ int main() {
 
           // Update the weights and resample
           pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
-          //pf.resample();
+          pf.resample();
 
           // Calculate and output the average weighted error of the particle 
           //   filter over all time steps so far.

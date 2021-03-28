@@ -365,7 +365,7 @@ void ParticleFilter::NormalizeWeights() {
 	double sigma_landmark [2] = {0.3, 0.3};
 	
 	updateWeights(sensor_range,sigma_landmark,obs,map);
-	
+	resample();
 	
 		
 	
@@ -381,6 +381,8 @@ void ParticleFilter::resample() {
    */
    
    double max_weight = std::numeric_limits<double>::min();
+   
+   
    
    for( int i = 0;i < num_particles; i++){
 	   weights[i]=particles[i].weight;
