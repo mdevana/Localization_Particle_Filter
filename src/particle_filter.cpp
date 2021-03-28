@@ -151,6 +151,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
 		calc_dist=dist ( predicted[j].x, predicted[j].y, observations[i].x, observations[i].y);
 		std::cout<< " landmark X= "<< predicted[j].x << " landmark Y= "<< predicted[j].y << " landmark id =  "<<predicted[j].id<< " calc dist ="<<calc_dist<<std::endl;
 		if (calc_dist < min_dist) {
+			std::cout<< "min dist "<< min_dist<< " calc dist "<< calc_dist<<std::endl;
 			min_dist=calc_dist;
 			close_LandMarkObs_id= predicted[j].id;
 		}
