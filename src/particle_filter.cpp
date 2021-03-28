@@ -256,14 +256,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 					
 				}
 
-				//std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
+				std::cout<< " X_m= "<< x_m << " Y_m= "<< y_m << " Mu_x=  "<<mu_x<< " Mu_y=  "<<mu_y<< " std_x=  "<<std_landmark[0]<<" std_y=  "<<std_landmark[1]<<std::endl;
 
 				double wt = multi_prob_dist(x_m,y_m,mu_x,mu_y,std_landmark[0],std_landmark[1]);
 				if (wt == 0 ){
 					wt=0.00001;
 				}
 				
-				//std::cout << "multi prob value = " << wt << std::endl;
+				std::cout << "multi prob value = " << wt << std::endl;
 				final_weight*=wt;
 			
 		}
