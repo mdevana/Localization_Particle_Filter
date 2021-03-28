@@ -382,7 +382,7 @@ void ParticleFilter::resample() {
    
    double max_weight = std::numeric_limits<double>::min();
    
-   
+   std::cout<<" in resampling code"<<std::endl;
    
    for( int i = 0;i < num_particles; i++){
 	   weights[i]=particles[i].weight;
@@ -399,6 +399,7 @@ void ParticleFilter::resample() {
    double beta = 0.0;
    
    int index = distForIndex(gen);
+   std::cout<<" in resampling code index "<<index <<std::endl;
    
    for( int i = 0; i < num_particles; i++){
 	   
