@@ -276,9 +276,9 @@ void ParticleFilter::NormalizeWeights() {
 	}*/
 	const double A_PI = 3.14159265358979323846;
 	for (int i = 0; i < num_particles; ++i) {
-		std::cout<<"Particle x Coordinate :" << particle[i].x;
-		std::cout<<"Particle y Coordinate :"<< particle[i].y;
-		std::cout<<"Particle theta Coordinate :"<< particle[i].theta;
+		std::cout<<"Particle x Coordinate :" << particles[i].x;
+		std::cout<<"Particle y Coordinate :"<< particles[i].y;
+		std::cout<<"Particle theta Coordinate :"<< particles[i].theta;
 	}
 	double delta_t=0.1;
 	double std_pos[3]={0.3, 0.3, 0.01};
@@ -288,9 +288,9 @@ void ParticleFilter::NormalizeWeights() {
 	prediction(delta_t,std_pos,velocity,yaw_rate);
 	
 	for (int i = 0; i < num_particles; ++i) {
-		std::cout<<"Particle x Coordinate :" << particle[i].x;
-		sztd::cout<<"Particle y Coordinate :"<< particle[i].y;
-		std::cout<<"Particle theta Coordinate :" << particle[i].theta;
+		std::cout<<"Particle x Coordinate :" << particles[i].x;
+		sztd::cout<<"Particle y Coordinate :"<< particles[i].y;
+		std::cout<<"Particle theta Coordinate :" << particles[i].theta;
 	}
 	
 	
@@ -306,6 +306,8 @@ void ParticleFilter::NormalizeWeights() {
 	OBS1.y = -4;
 	
 	vector<LandmarkObs> obs{OBS1,OBS2,OBS3};
+	
+	Map map;
 
     // Declare single_landmark
     Map::single_landmark_s single_landmark_temp;
