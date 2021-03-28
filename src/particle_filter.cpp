@@ -295,7 +295,7 @@ void ParticleFilter::NormalizeWeights() {
 	double velocity = 110.0; 
 	double yaw_rate = A_PI / 8;
 	
-	prediction(delta_t,std_pos,velocity,yaw_rate);
+	//prediction(delta_t,std_pos,velocity,yaw_rate);
 	
 	for (int i = 0; i < num_particles; ++i) {
 		std::cout<<"Particle x Coordinate :" << particles[i].x;
