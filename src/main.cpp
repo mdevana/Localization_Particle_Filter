@@ -48,7 +48,7 @@ int main() {
 
   // Create particle filter
   ParticleFilter pf;
-  //ParticleFilter pf2;
+  ParticleFilter pf2;
   //pf2.init(4,5, -90, sigma_pos);
   pf2.init(4,5, -1.5708, sigma_pos);
   pf2.NormalizeWeights();
