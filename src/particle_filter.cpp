@@ -307,11 +307,11 @@ void ParticleFilter::NormalizeWeights() {
 	OBS1.x = 2;
 	OBS1.y = 2;
 	
-	OBS1.x = 3;
-	OBS1.y = -2;
+	OBS2.x = 3;
+	OBS2.y = -2;
 	
-	OBS1.x = 0;
-	OBS1.y = -4;
+	OBS3.x = 0;
+	OBS3.y = -4;
 	
 	vector<LandmarkObs> obs{OBS1,OBS2,OBS3};
 	
