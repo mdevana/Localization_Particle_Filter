@@ -386,11 +386,12 @@ void ParticleFilter::resample() {
    
    for( int i = 0;i < num_particles; i++){
 	   weights[i]=particles[i].weight;
+	   std::cout<<" in resampling code index weights"<<weights[i] <<std::endl;
 	   if (particles[i].weight > max_weight)
 		max_weight = particles[i].weight;
 	   
    }
-   
+   std::cout<<" in resampling code max weights"<<max_weight<<std::endl;
    std::uniform_real_distribution<double> distForBeta(0.0, 2 * max_weight);
    std::uniform_int_distribution<int> distForIndex(0, num_particles - 1);
    
