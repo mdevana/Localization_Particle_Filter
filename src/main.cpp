@@ -37,7 +37,7 @@ int main() {
   // Landmark measurement uncertainty [x [m], y [m]]
   double sigma_landmark [2] = {0.3, 0.3};
   
-  std::cout << "starting main" << std::endl;
+  
 
   // Read map data
   Map map;
@@ -48,11 +48,7 @@ int main() {
 
   // Create particle filter
   ParticleFilter pf;
-  ParticleFilter pf2;
-  //pf2.init(4,5, -90, sigma_pos);
-  pf2.init(4,5, -1.5708, sigma_pos);
-  pf2.NormalizeWeights();
-  
+
   
 
   h.onMessage([&pf,&map,&delta_t,&sensor_range,&sigma_pos,&sigma_landmark]
@@ -136,9 +132,6 @@ int main() {
             weight_sum += particles[i].weight;
           }
 
-          std::cout << "highest w " << highest_weight << std::endl;
-          std::cout << "average w " << weight_sum/num_particles << std::endl;
-
           json msgJson;
           msgJson["best_particle_x"] = best_particle.x;
           msgJson["best_particle_y"] = best_particle.y;
@@ -151,7 +144,7 @@ int main() {
           msgJson["best_particle_sense_y"] = pf.getSenseCoord(best_particle, "Y");
 
           auto msg = "42[\"best_particle\"," + msgJson.dump() + "]";
-          // std::cout << msg << std::endl;
+
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }  // end "telemetry" if
       } else {
